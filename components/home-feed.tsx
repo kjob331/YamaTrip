@@ -38,7 +38,14 @@ export function HomeFeed({ posts }: { posts: PostWithImages[] }) {
               placeholder="山名で検索（例：高尾山）"
               className="h-11 pl-9"
               aria-label="山名で検索"
+              list="mountain-choices"
+              autoComplete="off"
             />
+            <datalist id="mountain-choices">
+              {POPULAR_MOUNTAINS.map((m) => (
+                <option key={m} value={m} />
+              ))}
+            </datalist>
           </div>
           <Button type="submit" size="lg" className="h-11 font-medium">
             <Search data-icon="inline-start" />
