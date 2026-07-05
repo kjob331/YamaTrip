@@ -1,21 +1,25 @@
 name: Lint Check
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
 
 jobs:
   lint:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4  # v3からv4にアップグレード（警告対策）
+        uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4  # v3からv4にアップグレード（警告対策）
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 20  # 18から20に変更（現在の推奨バージョン）
+          node-version: 18
+          cache: npm
 
       - name: Install dependencies
-        run: npm install --legacy-peer-deps
+        run: npm ci
 
       - name: Run ESLint
         run: npm run lint
