@@ -12,6 +12,9 @@ import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { cn } from "@/lib/utils"
 
+// ⭕ リファクタリング：マジックナンバーを排除するための定数定義
+const MIN_PASSWORD_LENGTH = 8
+
 export default function SignUpPage() {
   const router = useRouter()
   const [email, setEmail] = useState("")
@@ -19,7 +22,8 @@ export default function SignUpPage() {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
 
-  const isLongEnough = password.length >= 8
+  // ⭕ リファクタリング：定数「MIN_PASSWORD_LENGTH」を使用
+  const isLongEnough = password.length >= MIN_PASSWORD_LENGTH
   const hasLetter = /[a-zA-Z]/.test(password)
   const hasNumber = /[0-9]/.test(password)
   const isValid = isLongEnough && hasLetter && hasNumber
@@ -28,7 +32,8 @@ export default function SignUpPage() {
     e.preventDefault()
     setError(null)
     if (!isValid) {
-      setError("パスワードは8文字以上で、英字と数字を含めてください。")
+      // ⭕ リファクタリング：エラーメッセージ内も定数から動的に生成
+      setError(`パスワードは${MIN_PASSWORD_LENGTH}文字以上で、英字と数字を含めてください。`)
       return
     }
     setLoading(true)
@@ -101,7 +106,8 @@ export default function SignUpPage() {
               placeholder="••••••••"
             />
             <ul className="mt-1 flex flex-col gap-1 text-xs">
-              <PasswordRule ok={isLongEnough} label="8文字以上" />
+              {/* ⭕ リファクタリング：UI上のラベルも定数を利用 */}
+              <PasswordRule ok={isLongEnough} label={`${MIN_PASSWORD_LENGTH}文字以上`} />
               <PasswordRule ok={hasLetter} label="英字を含む" />
               <PasswordRule ok={hasNumber} label="数字を含む" />
             </ul>
