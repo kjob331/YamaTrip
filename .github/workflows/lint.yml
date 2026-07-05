@@ -5,19 +5,14 @@ on: [push, pull_request]
 jobs:
   lint:
     runs-on: ubuntu-latest
-    # 2行を追加（すべてのステップをこのフォルダ内で実行する指示）
-    defaults:
-      run:
-        working-directory: ./mountain-hot-spring-app
-
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4  # v3からv4にアップグレード（警告対策）
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4  # v3からv4にアップグレード（警告対策）
         with:
-          node-version: 18
+          node-version: 20  # 18から20に変更（現在の推奨バージョン）
 
       - name: Install dependencies
         run: npm install --legacy-peer-deps
