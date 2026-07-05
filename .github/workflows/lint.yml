@@ -3,29 +3,24 @@ name: Lint Check
 on: [push, pull_request]
 
 jobs:
-
   lint:
-
     runs-on: ubuntu-latest
+    # 2行を追加（すべてのステップをこのフォルダ内で実行する指示）
+    defaults:
+      run:
+        working-directory: ./mountain-hot-spring-app
 
     steps:
-
       - name: Checkout repository
-
         uses: actions/checkout@v3
 
       - name: Set up Node.js
-
         uses: actions/setup-node@v3
-
         with:
-
           node-version: 18
 
       - name: Install dependencies
-
         run: npm install --legacy-peer-deps
 
       - name: Run ESLint
-
         run: npm run lint
